@@ -4,7 +4,6 @@ Make the voice of a reel and the timings that sync the animation to it.
 
     npm run voice -- <reel>                      # free local voice (Kokoro)
     npm run voice -- <reel> --engine recorded    # your own recording
-    npm run voice -- <reel> --engine elevenlabs  # ElevenLabs (needs your own key in .env)
 
 Input:  src/reels/<reel>/script.txt   (scenes in [brackets], one sentence per line)
         public/reels/<reel>/voice-raw.(m4a|mp3|wav)   only for --engine recorded
@@ -19,7 +18,6 @@ from __future__ import annotations
 import argparse
 import json
 import math
-import os
 import re
 import shutil
 import subprocess
@@ -125,52 +123,6 @@ def kokoro_segments(lines, cfg, work: Path) -> list[np.ndarray]:
         samples, sr = k.create(text, voice=kc["voice"], speed=kc["speed"], lang=kc["lang"])
         p = work / f"{i:02d}.wav"
         sf.write(p, samples, sr)
-        out.append(trim_silence(load_mono(p)))
-    return out
-
-
-def read_env() -> dict[str, str]:
-    env = dict(os.environ)
-    f = ROOT / ".env"
-    if f.exists():
-        for line in f.read_text(encoding="utf-8").splitlines():
-            if "=" in line and not line.strip().startswith("#"):
-                key, val = line.split("=", 1)
-                if val.strip():
-                    env.setdefault(key.strip(), val.strip().strip('"').strip("'"))
-    return env
-
-
-def elevenlabs_segments(lines, cfg, work: Path) -> list[np.ndarray]:
-    env = read_env()
-    key, voice = env.get("ELEVENLABS_API_KEY"), env.get("ELEVENLABS_VOICE_ID")
-    if not key or not voice:
-        die("Put ELEVENLABS_API_KEY and ELEVENLABS_VOICE_ID in your .env file (copy .env.example).")
-    ec = cfg["elevenlabs"]
-    texts = [t for _, t in lines]
-    out = []
-    for i, text in enumerate(texts, 1):
-        print(f"  [{i}/{len(texts)}] {text}")
-        body = {
-            "text": text,
-            "model_id": ec["model"],
-            "voice_settings": {"stability": ec["stability"], "similarity_boost": ec["similarity_boost"]},
-            # Context makes the intonation flow between lines.
-            "previous_text": " ".join(texts[: i - 1])[-500:] or None,
-            "next_text": " ".join(texts[i:])[:500] or None,
-        }
-        req = urllib.request.Request(
-            f"https://api.elevenlabs.io/v1/text-to-speech/{voice}?output_format=mp3_44100_128",
-            data=json.dumps(body).encode(),
-            headers={"xi-api-key": key, "Content-Type": "application/json"},
-        )
-        try:
-            with urllib.request.urlopen(req) as r:
-                data = r.read()
-        except urllib.error.HTTPError as e:
-            die(f"ElevenLabs said {e.code}: {e.read().decode()[:400]}")
-        p = work / f"{i:02d}.mp3"
-        p.write_bytes(data)
         out.append(trim_silence(load_mono(p)))
     return out
 
@@ -294,7 +246,7 @@ def finish_audio(audio: np.ndarray, out: Path, work: Path, tempo: float, lufs: f
 def main() -> None:
     ap = argparse.ArgumentParser(description="Make the voice and timings for a reel.")
     ap.add_argument("reel", help="reel folder name, e.g. example")
-    ap.add_argument("--engine", choices=["kokoro", "recorded", "elevenlabs"], help="overrides voice.config.json")
+    ap.add_argument("--engine", choices=["kokoro", "recorded"], help="overrides voice.config.json")
     args = ap.parse_args()
 
     cfg = json.loads((ROOT / "voice.config.json").read_text(encoding="utf-8"))
@@ -311,8 +263,6 @@ def main() -> None:
 
     if engine == "kokoro":
         segs, tempo = kokoro_segments(lines, cfg, work), 1.0
-    elif engine == "elevenlabs":
-        segs, tempo = elevenlabs_segments(lines, cfg, work), 1.0
     else:
         segs, tempo = recorded_segments(lines, cfg, slug), float(cfg["recorded"]["speed"])
 

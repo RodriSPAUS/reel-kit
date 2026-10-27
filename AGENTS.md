@@ -25,8 +25,8 @@ Do the steps in order. **Stop and wait for the user's OK at each checkpoint (✋
 
 ## Rules
 
-- **Secrets.** Never write an API key, token or password into any tracked file, commit, log or message. Keys live only in `.env` (git-ignored). If you see a key in a tracked file, stop and tell the user to revoke it.
-- **Paid services.** ElevenLabs and AWS cost money. Only use them if the user asks, and say so before running anything that spends credits.
+- **No accounts or paid services.** Voice comes from Kokoro (local) or the user's own recording; rendering is local. Don't add cloud services, API keys or paid tools.
+- **Secrets.** Never write a password, token or key into any file, commit or message.
 - **Facts.** Don't invent facts or numbers. Each one needs a source the user can check. If unsure, say so.
 - **Other people's work.** No copyrighted characters, logos, song lyrics or music the user doesn't have rights to. Original drawings only.
 - **Privacy.** No personal details (full names, school, location) in videos or captions.

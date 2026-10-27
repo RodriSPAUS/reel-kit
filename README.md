@@ -15,7 +15,7 @@ You write a script. The kit gives it a voice, works out when every word is spoke
 
 It is built on [Remotion](https://www.remotion.dev) (videos written in React).
 
-**Free by default.** The voice runs on your own computer with [Kokoro](https://github.com/hexgrad/kokoro), an open-source text-to-speech model, and the video renders on your computer too. No accounts, no keys. If you want, you can plug in ElevenLabs for better voices or AWS for faster rendering, with your own keys.
+**Free, and everything runs on your computer.** The voice comes from [Kokoro](https://github.com/hexgrad/kokoro), an open-source text-to-speech model (or from your own recording), and the video renders locally. No accounts, no API keys, no paid services.
 
 ---
 
@@ -23,8 +23,7 @@ It is built on [Remotion](https://www.remotion.dev) (videos written in React).
 
 ```
 script.txt ──► npm run voice ──► voice.m4a + timings.json ──► Reel.tsx (scenes) ──► npm run render ──► MP4
-                 (Kokoro, your mic,                           cue(T, "scene", "word")
-                  or ElevenLabs)
+                 (Kokoro or your mic)                         cue(T, "scene", "word")
 ```
 
 1. **Script.** `src/reels/<name>/script.txt`: scenes in `[brackets]`, one sentence per line.
@@ -122,7 +121,6 @@ Choose in `voice.config.json` (`"engine"`) or per run with `--engine`.
 |---|---|---|---|
 | `kokoro` (default) | Free | Good, slightly robotic | Nothing. Runs on your computer |
 | `recorded` | Free | As good as your mic | A recording of yourself |
-| `elevenlabs` | Paid | Very natural | Your own ElevenLabs account and key |
 
 **Kokoro.** Change `"voice"` and `"lang"` in `voice.config.json`. Some voices: `af_heart`, `af_bella`, `am_michael`, `bf_emma`, `bm_george` (English); `ef_dora`, `em_alex` (Spanish, with `"lang": "es"`); also French, Italian, Portuguese, Japanese, Chinese and Hindi. If a voice name is wrong, the script lists all of them.
 
@@ -133,8 +131,6 @@ npm run voice -- <name> --engine recorded
 ```
 
 The script finds one chunk per line, shortens the pauses, speeds the voice up a little without changing its pitch (`"speed"` under `"recorded"`), and evens out the volume. If it can't match the lines, it tells you why.
-
-**ElevenLabs.** See [Keys and safety](#keys-and-safety). Then `npm run voice -- <name> --engine elevenlabs`. Each run spends credits from your account.
 
 Word timings are estimated from the length of each word inside its line, not detected from the audio. They are close enough for animations; if a word lands a little early or late, add or subtract a few frames: `cue(T, "ink", "cloud") + 4`.
 
@@ -155,25 +151,15 @@ Word timings are estimated from the length of each word inside its line, not det
 
 ---
 
-## Keys and safety
+## Safety
 
-**This repository contains no keys and needs none.** Optional services read keys from a file called `.env` on your own computer:
+This kit needs no accounts, passwords or API keys, so there is nothing secret to protect in it. Keep it that way: never paste a password or key into a file you push to GitHub.
 
-```bash
-cp .env.example .env    # then put your keys in .env
-```
-
-- `.env` is in `.gitignore`, so git will not upload it. Never put a key in any other file, in a screenshot, or in a message.
-- Before your first `git push`, run `git status` and make sure `.env` is **not** listed.
-- If a key is ever pushed by mistake, delete it in the service's dashboard right away and make a new one. Removing the file afterwards is not enough: it stays in the git history.
-
-If you are making videos as a kid or teen: ask an adult before creating accounts, paying for services, or posting. Most platforms require you to be at least 13, and some ask for more.
+If you are making videos as a kid or teen: ask an adult before creating accounts or posting. Most platforms require you to be at least 13, and some ask for more.
 
 ---
 
 ## Rendering
-
-On your computer:
 
 ```bash
 npm run preview -- <name>                 # 540×960, fast
@@ -184,9 +170,7 @@ npm run frames -- <name> 0,120,300        # still pictures to out/frames/
 
 One MP4 works for Instagram Reels, YouTube Shorts and TikTok. A 30-second reel takes a few minutes on a normal laptop; more CPU cores = faster.
 
-In the cloud: see [docs/render-on-aws.md](docs/render-on-aws.md). It is optional and not set up in this repo.
-
-If Remotion cannot download its browser (some school or office networks block it), install Chrome or Chromium and put its path in `.env` as `REMOTION_BROWSER_EXECUTABLE`.
+If Remotion cannot download its browser (some school or office networks block it), install Chrome or Chromium and set the environment variable `REMOTION_BROWSER_EXECUTABLE` to its path before rendering.
 
 ---
 

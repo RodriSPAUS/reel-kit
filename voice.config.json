@@ -5,11 +5,6 @@
     "lang": "en-us",
     "speed": 1.1
   },
-  "elevenlabs": {
-    "model": "eleven_multilingual_v2",
-    "stability": 0.5,
-    "similarity_boost": 0.75
-  },
   "recorded": {
     "speed": 1.15,
     "silence_db": -35
