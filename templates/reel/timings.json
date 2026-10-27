@@ -1,0 +1,10 @@
+{
+ "fps": 30,
+ "totalFrames": 270,
+ "scenes": {
+  "hook": { "start": 0, "end": 90 },
+  "point": { "start": 90, "end": 180 },
+  "outro": { "start": 180, "end": 270 }
+ },
+ "words": []
+}

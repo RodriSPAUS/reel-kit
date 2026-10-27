@@ -1,0 +1,20 @@
+# Example reel. Scenes go in [brackets]; each line below a scene is one sentence.
+# Leave a short pause between lines when you record yourself.
+# Source for the facts: Smithsonian Magazine, "Ten wild facts about octopuses".
+
+[hook]
+An octopus has three hearts.
+
+[blood]
+And its blood is blue, because it carries oxygen with copper instead of iron.
+
+[hearts]
+Two hearts pump blood through the gills.
+The third one pumps it to the rest of the body.
+
+[twist]
+But when an octopus swims, that third heart stops beating.
+That may be why octopuses would rather crawl.
+
+[outro]
+Follow for one weird animal fact a day.

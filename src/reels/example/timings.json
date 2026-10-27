@@ -1,0 +1,406 @@
+{
+ "fps": 30,
+ "totalFrames": 588,
+ "scenes": {
+  "hook": {
+   "start": 0,
+   "end": 59
+  },
+  "blood": {
+   "start": 59,
+   "end": 190
+  },
+  "hearts": {
+   "start": 190,
+   "end": 329
+  },
+  "twist": {
+   "start": 329,
+   "end": 505
+  },
+  "outro": {
+   "start": 505,
+   "end": 588
+  }
+ },
+ "words": [
+  {
+   "text": "An",
+   "scene": "hook",
+   "start": 3,
+   "end": 8
+  },
+  {
+   "text": "octopus",
+   "scene": "hook",
+   "start": 8,
+   "end": 20
+  },
+  {
+   "text": "has",
+   "scene": "hook",
+   "start": 20,
+   "end": 27
+  },
+  {
+   "text": "three",
+   "scene": "hook",
+   "start": 27,
+   "end": 36
+  },
+  {
+   "text": "hearts.",
+   "scene": "hook",
+   "start": 36,
+   "end": 47
+  },
+  {
+   "text": "And",
+   "scene": "blood",
+   "start": 59,
+   "end": 66
+  },
+  {
+   "text": "its",
+   "scene": "blood",
+   "start": 66,
+   "end": 72
+  },
+  {
+   "text": "blood",
+   "scene": "blood",
+   "start": 72,
+   "end": 81
+  },
+  {
+   "text": "is",
+   "scene": "blood",
+   "start": 81,
+   "end": 86
+  },
+  {
+   "text": "blue,",
+   "scene": "blood",
+   "start": 86,
+   "end": 94
+  },
+  {
+   "text": "because",
+   "scene": "blood",
+   "start": 94,
+   "end": 106
+  },
+  {
+   "text": "it",
+   "scene": "blood",
+   "start": 106,
+   "end": 111
+  },
+  {
+   "text": "carries",
+   "scene": "blood",
+   "start": 111,
+   "end": 123
+  },
+  {
+   "text": "oxygen",
+   "scene": "blood",
+   "start": 123,
+   "end": 134
+  },
+  {
+   "text": "with",
+   "scene": "blood",
+   "start": 134,
+   "end": 142
+  },
+  {
+   "text": "copper",
+   "scene": "blood",
+   "start": 142,
+   "end": 153
+  },
+  {
+   "text": "instead",
+   "scene": "blood",
+   "start": 153,
+   "end": 166
+  },
+  {
+   "text": "of",
+   "scene": "blood",
+   "start": 166,
+   "end": 170
+  },
+  {
+   "text": "iron.",
+   "scene": "blood",
+   "start": 170,
+   "end": 178
+  },
+  {
+   "text": "Two",
+   "scene": "hearts",
+   "start": 190,
+   "end": 195
+  },
+  {
+   "text": "hearts",
+   "scene": "hearts",
+   "start": 195,
+   "end": 204
+  },
+  {
+   "text": "pump",
+   "scene": "hearts",
+   "start": 204,
+   "end": 211
+  },
+  {
+   "text": "blood",
+   "scene": "hearts",
+   "start": 211,
+   "end": 219
+  },
+  {
+   "text": "through",
+   "scene": "hearts",
+   "start": 219,
+   "end": 230
+  },
+  {
+   "text": "the",
+   "scene": "hearts",
+   "start": 230,
+   "end": 235
+  },
+  {
+   "text": "gills.",
+   "scene": "hearts",
+   "start": 235,
+   "end": 243
+  },
+  {
+   "text": "The",
+   "scene": "hearts",
+   "start": 249,
+   "end": 255
+  },
+  {
+   "text": "third",
+   "scene": "hearts",
+   "start": 255,
+   "end": 264
+  },
+  {
+   "text": "one",
+   "scene": "hearts",
+   "start": 264,
+   "end": 269
+  },
+  {
+   "text": "pumps",
+   "scene": "hearts",
+   "start": 269,
+   "end": 278
+  },
+  {
+   "text": "it",
+   "scene": "hearts",
+   "start": 278,
+   "end": 282
+  },
+  {
+   "text": "to",
+   "scene": "hearts",
+   "start": 282,
+   "end": 287
+  },
+  {
+   "text": "the",
+   "scene": "hearts",
+   "start": 287,
+   "end": 292
+  },
+  {
+   "text": "rest",
+   "scene": "hearts",
+   "start": 292,
+   "end": 299
+  },
+  {
+   "text": "of",
+   "scene": "hearts",
+   "start": 299,
+   "end": 304
+  },
+  {
+   "text": "the",
+   "scene": "hearts",
+   "start": 304,
+   "end": 310
+  },
+  {
+   "text": "body.",
+   "scene": "hearts",
+   "start": 310,
+   "end": 317
+  },
+  {
+   "text": "But",
+   "scene": "twist",
+   "start": 329,
+   "end": 335
+  },
+  {
+   "text": "when",
+   "scene": "twist",
+   "start": 335,
+   "end": 343
+  },
+  {
+   "text": "an",
+   "scene": "twist",
+   "start": 343,
+   "end": 348
+  },
+  {
+   "text": "octopus",
+   "scene": "twist",
+   "start": 348,
+   "end": 360
+  },
+  {
+   "text": "swims,",
+   "scene": "twist",
+   "start": 360,
+   "end": 370
+  },
+  {
+   "text": "that",
+   "scene": "twist",
+   "start": 370,
+   "end": 378
+  },
+  {
+   "text": "third",
+   "scene": "twist",
+   "start": 378,
+   "end": 387
+  },
+  {
+   "text": "heart",
+   "scene": "twist",
+   "start": 387,
+   "end": 397
+  },
+  {
+   "text": "stops",
+   "scene": "twist",
+   "start": 397,
+   "end": 407
+  },
+  {
+   "text": "beating.",
+   "scene": "twist",
+   "start": 407,
+   "end": 419
+  },
+  {
+   "text": "That",
+   "scene": "twist",
+   "start": 426,
+   "end": 433
+  },
+  {
+   "text": "may",
+   "scene": "twist",
+   "start": 433,
+   "end": 439
+  },
+  {
+   "text": "be",
+   "scene": "twist",
+   "start": 439,
+   "end": 444
+  },
+  {
+   "text": "why",
+   "scene": "twist",
+   "start": 444,
+   "end": 450
+  },
+  {
+   "text": "octopuses",
+   "scene": "twist",
+   "start": 450,
+   "end": 465
+  },
+  {
+   "text": "would",
+   "scene": "twist",
+   "start": 465,
+   "end": 474
+  },
+  {
+   "text": "rather",
+   "scene": "twist",
+   "start": 474,
+   "end": 484
+  },
+  {
+   "text": "crawl.",
+   "scene": "twist",
+   "start": 484,
+   "end": 493
+  },
+  {
+   "text": "Follow",
+   "scene": "outro",
+   "start": 505,
+   "end": 517
+  },
+  {
+   "text": "for",
+   "scene": "outro",
+   "start": 517,
+   "end": 524
+  },
+  {
+   "text": "one",
+   "scene": "outro",
+   "start": 524,
+   "end": 530
+  },
+  {
+   "text": "weird",
+   "scene": "outro",
+   "start": 530,
+   "end": 540
+  },
+  {
+   "text": "animal",
+   "scene": "outro",
+   "start": 540,
+   "end": 552
+  },
+  {
+   "text": "fact",
+   "scene": "outro",
+   "start": 552,
+   "end": 560
+  },
+  {
+   "text": "a",
+   "scene": "outro",
+   "start": 560,
+   "end": 563
+  },
+  {
+   "text": "day.",
+   "scene": "outro",
+   "start": 563,
+   "end": 570
+  }
+ ]
+}

@@ -1,0 +1,25 @@
+{
+  "engine": "kokoro",
+  "kokoro": {
+    "voice": "af_heart",
+    "lang": "en-us",
+    "speed": 1.1
+  },
+  "elevenlabs": {
+    "model": "eleven_multilingual_v2",
+    "stability": 0.5,
+    "similarity_boost": 0.75
+  },
+  "recorded": {
+    "speed": 1.15,
+    "silence_db": -35
+  },
+  "pauses": {
+    "start": 0.1,
+    "between_lines": 0.22,
+    "between_scenes": 0.4,
+    "end": 0.6
+  },
+  "loudness_lufs": -14,
+  "fps": 30
+}

@@ -1,0 +1,29 @@
+{
+  "name": "reel-kit",
+  "version": "0.1.0",
+  "private": true,
+  "description": "A small kit for making short vertical videos (Reels, Shorts, TikTok) with Remotion: write a script, generate or record the voice, animate scenes, render.",
+  "license": "MIT",
+  "type": "module",
+  "scripts": {
+    "studio": "remotion studio",
+    "new": "node scripts/new-reel.mjs",
+    "voice": "python3 scripts/voice.py",
+    "frames": "node scripts/frames.mjs",
+    "preview": "node scripts/render.mjs --preview",
+    "render": "node scripts/render.mjs",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@remotion/bundler": "4.0.539",
+    "@remotion/cli": "4.0.539",
+    "@remotion/renderer": "4.0.539",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "remotion": "4.0.539"
+  },
+  "devDependencies": {
+    "@types/react": "^19.0.0",
+    "typescript": "^5.8.0"
+  }
+}

@@ -1,0 +1,26 @@
+# Secrets: never commit these
+.env
+.env.*
+!.env.example
+
+# Dependencies and build output
+node_modules/
+out/
+.remotion/
+*.log
+
+# Voice engine model files (downloaded on first use, ~120 MB)
+models/
+
+# Python
+__pycache__/
+.venv/
+
+# Working files produced while making the voice
+public/reels/*/segments/
+
+# OS / editor
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/

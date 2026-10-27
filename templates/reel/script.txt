@@ -1,0 +1,15 @@
+# Write your reel here, then run: npm run voice -- __REEL__
+# - Scenes go in [brackets]. Use short names without spaces.
+# - One sentence per line. Each line is said with a short pause after it.
+# - Lines starting with # are notes for you; they are not spoken.
+# - Aim for 20-45 seconds: about 60-110 words in total.
+# - Write numbers the way they are said ("three hundred", not "300") if the voice reads them wrong.
+
+[hook]
+Write the most surprising sentence first.
+
+[point]
+Explain the idea in one or two short sentences.
+
+[outro]
+End with a question or a reason to follow.
