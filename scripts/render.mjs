@@ -1,7 +1,7 @@
 // Render a reel to MP4, plus its cover image.
 //
-//   npm run preview -- <reel>    half size, fast, to check timing and text
-//   npm run render  -- <reel>    final 1080x1920 video for upload
+//   npm run preview -- <reel>    half size, fast, to check timing and text  → videos/<reel>-preview.mp4
+//   npm run render  -- <reel>    final 1080x1920 video for upload          → videos/<reel>.mp4 + cover
 //
 // Options: --frames=100-300 (render only part), --concurrency=4
 import path from "node:path";
@@ -14,7 +14,9 @@ const preview = process.argv.includes("--preview");
 const id = process.argv.slice(2).find((a) => !a.startsWith("--"));
 const { serveUrl, composition } = await prepare(id);
 
-const outDir = path.join(ROOT, "out");
+// Finished videos go to videos/ so they're easy to find (and to download from
+// GitHub when working in the cloud).
+const outDir = path.join(ROOT, "videos");
 fs.mkdirSync(outDir, { recursive: true });
 const file = path.join(outDir, preview ? `${id}-preview.mp4` : `${id}.mp4`);
 

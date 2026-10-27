@@ -1,12 +1,17 @@
 // Shared helpers for the render and frames scripts.
 import path from "node:path";
+import fs from "node:fs";
 import { fileURLToPath } from "node:url";
 import { bundle } from "@remotion/bundler";
 import { selectComposition } from "@remotion/renderer";
 
 export const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 
-export const browserExecutable = process.env.REMOTION_BROWSER_EXECUTABLE || null;
+// Browser used to draw frames: an explicit setting, else the backup copy that
+// `npm run setup` puts in bin/ when Remotion's own download is blocked.
+const backup = path.join(ROOT, "bin", "chromium");
+export const browserExecutable =
+  process.env.REMOTION_BROWSER_EXECUTABLE || (fs.existsSync(backup) ? backup : null);
 
 export async function prepare(id) {
   if (!id) {

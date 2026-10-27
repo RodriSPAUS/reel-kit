@@ -23,3 +23,6 @@ public/reels/*/segments/
 Thumbs.db
 .vscode/
 .idea/
+
+# Browser copied here when the system one can't be used
+bin/

@@ -1,211 +1,136 @@
 ---
 type: guide
 title: reel-kit
-description: Make short vertical videos (Reels, Shorts, TikTok) with code. Write a script, get a voice, animate scenes in sync with the words, render an MP4.
-tags: [remotion, video, reels, shorts, tiktok, text-to-speech]
-status: draft
-generated: {by: claude/opus-5, at: 2026-10-27}
+description: Make your own Reels, Shorts and TikToks by chatting with an AI assistant. No coding, free voice, everything renders on your computer.
+tags: [reels, shorts, tiktok, beginners, ai-assistant, remotion]
+status: stable
+generated: {by: claude/opus-5, at: 2026-10-28}
 ---
 
 # reel-kit
 
-Make short vertical videos (Reels, Shorts, TikTok) with code instead of a video editor.
+**Make your own Reels, Shorts and TikToks by chatting with an AI.** You don't need to know how to code or install anything by hand: you talk, the AI does the technical part.
 
-You write a script. The kit gives it a voice, works out when every word is spoken, and lets you make drawings, numbers and text appear exactly on that word. Then it renders a 1080×1920 MP4 ready to upload, with subtitles burned in and a cover frame at the start.
+![Frames from the example reel](docs/images/example.png)
 
-It is built on [Remotion](https://www.remotion.dev) (videos written in React).
+You get:
 
-**Free, and everything runs on your computer.** The voice comes from [Kokoro](https://github.com/hexgrad/kokoro), an open-source text-to-speech model (or from your own recording), and the video renders locally. No accounts, no API keys, no paid services.
+- 🎙️ **A voice**: a free computer voice, or your own recorded on your phone
+- ✏️ **Animations that appear exactly when each word is said**
+- 💬 **Subtitles** burned in, for people watching without sound
+- 🖼️ **A cover picture** for your profile
+- 🎨 **Your own style**: colours, fonts and vibe, which you choose by chatting (or by sending a screenshot of a video you like)
 
----
-
-## How it works
-
-```
-script.txt ──► npm run voice ──► voice.m4a + timings.json ──► Reel.tsx (scenes) ──► npm run render ──► MP4
-                 (Kokoro or your mic)                         cue(T, "scene", "word")
-```
-
-1. **Script.** `src/reels/<name>/script.txt`: scenes in `[brackets]`, one sentence per line.
-2. **Voice.** `npm run voice -- <name>` makes `voice.m4a` and `timings.json` (the frame where every scene and word starts).
-3. **Scenes.** In `Reel.tsx`, one component per scene. `cue(T, "hook", "three")` gives you the frame where "three" is said.
-4. **Check.** `npm run studio` to watch it live, `npm run frames` for still pictures, `npm run preview` for a quick low-quality video.
-5. **Render.** `npm run render -- <name>` → `out/<name>.mp4` and `out/<name>-cover.png`.
-
-There is a complete example in `src/reels/example/` (a 20-second reel about octopus hearts). Open it in the studio first.
+Everything is free and stays on your project. No extra accounts, no paid voices.
 
 ---
 
-## Install
+## What you need
 
-You need:
+- **A GitHub account** (free): <https://github.com/signup>. This is where your project lives.
+- **An AI assistant that can work on a project** (it needs to read files and run things, not just chat). Some ideas are below. Many of them need a paid plan; **ask an adult** before signing up for anything.
 
-- **Node.js 20 or newer**: <https://nodejs.org>
-- **Python 3.10 or newer**: <https://www.python.org>
-- **ffmpeg**: macOS `brew install ffmpeg` · Windows `winget install ffmpeg` · Linux `sudo apt install ffmpeg`
-
-Then, in the project folder:
-
-```bash
-npm install
-pip install -r requirements.txt
-npm run studio
-```
-
-The studio opens in your browser. Pick **example** on the left and press play.
-
-The first time you run `npm run voice`, it downloads the Kokoro voice model (about 120 MB) into `models/`. That folder is ignored by git.
+> 👋 **If you're under 18:** do the setup with a parent or another adult. Most apps require you to be at least 13 to post.
 
 ---
 
-## Make your first reel
+## Step 1: Make your own copy
 
-```bash
-npm run new -- octopus-ink      # creates src/reels/octopus-ink/
-```
+1. Go to this repository on GitHub.
+2. Click the green **Use this template** button → **Create a new repository**.
+   *(If you don't see that button, click **Fork** instead.)*
+3. Give it a name (for example `my-reels`) and click **Create**.
 
-Edit `src/reels/octopus-ink/script.txt`:
+Now you have your own copy where all your videos will be saved.
 
-```
-[hook]
-An octopus can disappear in less than a second.
+---
 
-[ink]
-It shoots a cloud of ink shaped like itself.
-Predators attack the cloud.
+## Step 2: Open it with an AI assistant
 
-[outro]
-Which animal should I do next?
-```
+Pick **one** of these two ways.
 
-Then:
+### Option A: in your browser (nothing to install) ⭐ easiest
 
-```bash
-npm run voice -- octopus-ink
-npm run studio                  # draw the scenes in Reel.tsx and watch them update
-npm run preview -- octopus-ink  # half-size video to check
-npm run render -- octopus-ink   # final video
-```
+Use an AI coding assistant that runs on a website and connects to GitHub, for example **Claude Code** on the web, **OpenAI Codex**, **Google Jules**, or a similar tool.
 
-### Making things appear on a word
+1. Sign in to the assistant and connect your GitHub account when it asks.
+2. Choose your copy (`my-reels`).
+3. Type: **"Set me up"**
 
-```tsx
-<Scene t={T} name="ink">
-  <Appear at={cue(T, "ink", "cloud")} effect="pop">
-    <Title>Ink decoy</Title>
-  </Appear>
-</Scene>
-```
+That's it. The first time it takes a few minutes. Your finished videos will appear in the **`videos`** folder of your GitHub project, and you can download them from there, even on your phone.
 
-Ready-made pieces in `src/components/`:
+### Option B: on your computer
 
-| Component | What it does |
+1. Install **VS Code**: <https://code.visualstudio.com>
+2. Add an AI assistant to it. In VS Code, open the chat (the speech-bubble icon) and sign in to **GitHub Copilot** (it has a limited free plan to try; a paid plan works better for whole videos). Other AI extensions work too (Cline, Continue, …), as do AI editors like Cursor. Use any AI model you like.
+3. Get your project onto your computer: install **GitHub Desktop** (<https://desktop.github.com>), sign in, then **File → Clone repository** and pick your copy.
+4. In VS Code: **File → Open Folder** and choose that folder.
+5. In the AI chat, switch to **Agent** mode and type: **"Set me up"**
+
+The assistant will install what's missing (it may ask permission to run things: say yes). On some computers installing needs an adult's password. Your videos will be in the **`videos`** folder.
+
+*Comfortable with a terminal?* Terminal assistants like Claude Code or Grok Build work great too: open them in the project folder and say "Set me up".
+
+---
+
+## Step 3: Create your style (just chat)
+
+When setup finishes, the assistant will offer to create your style. It asks a few questions, like what your videos are about, the vibe you want, and the name of your channel.
+
+The easiest way: **send it a screenshot** of a video or account whose look you like. It will pick up the colours and mood (it won't copy anyone's logo).
+
+It shows you a picture of your style, and you just say what to change:
+
+> *"I like it, but darker."*
+> *"Can the font be rounder?"*
+> *"Make the highlight colour green."*
+
+Then you pick a voice: it makes a few short samples and you choose the one you like. Your style is saved, and every reel will use it. You can change it any time: *"Let's change my style."*
+
+---
+
+## Step 4: Make a reel
+
+Every reel goes like this. You only talk; the assistant does the rest.
+
+| You say | The assistant |
 |---|---|
-| `Scene` | Shows its content only while that part of the voice plays |
-| `Appear` | Fades, slides up or pops in at a frame |
-| `Title`, `Body` | Big and normal text in your style |
-| `Highlight` | Draws a marker behind a word |
-| `Counter` | A number that counts up |
-| `Footnote` | Small "Source: …" line |
-| `Heart`, `Drop`, `Chip` | Simple drawn icons (add your own SVGs) |
+| **"I want a reel about…"** *(or paste a script you already wrote)* | Helps you find a strong first sentence and write a short script (20–45 seconds). Checks the facts. **Waits for your OK.** |
+| *(nothing, or)* **"I want to use my own voice"** | Makes the computer voice. Or asks you to record yourself on your phone, reading each line with a short pause, and send it the file. |
+| **"What could we show on screen?"** | Suggests simple drawings, numbers and text for each part, and builds them. |
+| **"Show me a preview"** | Makes a quick version for you to watch. |
+| **"The title is too small"** · **"The heart comes in too late"** | Fixes it and shows you again. |
+| **"Looks good, make the final"** | Makes the full-quality video and cover, plus ideas for your caption. |
 
-`cue(T, scene)` is when a scene starts, `cue(T, scene, word)` when a word starts, `cueEnd(...)` when it ends. If a word appears twice in a scene, `cue(T, scene, word, 2)` is the second one.
+Then post it! When the app asks for a cover, choose the **first frame**. It was made to be your cover.
 
----
+### Handy things to say any time
 
-## Voices
-
-Choose in `voice.config.json` (`"engine"`) or per run with `--engine`.
-
-| Engine | Cost | Quality | What you need |
-|---|---|---|---|
-| `kokoro` (default) | Free | Good, slightly robotic | Nothing. Runs on your computer |
-| `recorded` | Free | As good as your mic | A recording of yourself |
-
-**Kokoro.** Change `"voice"` and `"lang"` in `voice.config.json`. Some voices: `af_heart`, `af_bella`, `am_michael`, `bf_emma`, `bm_george` (English); `ef_dora`, `em_alex` (Spanish, with `"lang": "es"`); also French, Italian, Portuguese, Japanese, Chinese and Hindi. If a voice name is wrong, the script lists all of them.
-
-**Your own voice.** Record the script with your phone, reading each line once and **leaving about one second of silence between lines**. Save it as `public/reels/<name>/voice-raw.m4a` (or `.mp3` / `.wav`), then:
-
-```bash
-npm run voice -- <name> --engine recorded
-```
-
-The script finds one chunk per line, shortens the pauses, speeds the voice up a little without changing its pitch (`"speed"` under `"recorded"`), and evens out the volume. If it can't match the lines, it tells you why.
-
-Word timings are estimated from the length of each word inside its line, not detected from the audio. They are close enough for animations; if a word lands a little early or late, add or subtract a few frames: `cue(T, "ink", "cloud") + 4`.
+- *"Where are we?"*: what's done and what's next
+- *"Show me my style"*
+- *"Let's continue my reel about…"*
+- *"Make it shorter"* / *"Give me three other hooks"*
+- *"Save my work"* (in the browser option, this saves it to GitHub)
 
 ---
 
-## Your style
+## Good habits
 
-- **`STYLE.md`**: describe in words who the videos are for, the tone, what to avoid. Fill it in once; it guides you (and any AI assistant you use) for every reel.
-- **`src/style/theme.ts`**: the numbers: channel name, colours, fonts, subtitle look, safe zone. Change it once and every reel follows.
-
-**Fonts.** Any font installed on your computer works: put its name in `theme.fonts`. For a Google Font that works the same on every computer, `npm i @remotion/google-fonts` and follow <https://www.remotion.dev/docs/google-fonts>.
-
-**Safe zone.** The apps cover the bottom and right of the video with buttons and captions. `Scene` keeps things inside `theme.safeZone`; keep important text there.
-
-**Cover.** The first 8 frames (a quarter of a second) show your hook, already drawn. When you upload, choose the first frame as the cover. `npm run render` also saves it as `out/<name>-cover.png`.
-
-**Music (optional).** Put a track in `public/music/` and pass `music="music/track.m4a"` to `ReelFrame`. Only use music you are allowed to use, and note where it came from in `public/music/LICENSES.md`. Keep it quiet: the voice matters more.
+- ✅ **Check your facts.** The assistant adds sources; keep them in your caption.
+- 🎵 **Music:** only use music you're allowed to use. Songs from the radio aren't free to use.
+- 🔒 **Stay private:** no full name, school or where you live in your videos.
+- 🙋 **Ask before posting** if you're under 18.
 
 ---
 
-## Safety
+## Works with any AI
 
-This kit needs no accounts, passwords or API keys, so there is nothing secret to protect in it. Keep it that way: never paste a password or key into a file you push to GitHub.
+All the instructions for the assistant are in [`AGENTS.md`](AGENTS.md), a file that most AI coding tools read automatically (there are small pointer files for the ones that look elsewhere). So you can use whichever AI you have, and switch later.
 
-If you are making videos as a kid or teen: ask an adult before creating accounts or posting. Most platforms require you to be at least 13, and some ask for more.
-
----
-
-## Rendering
-
-```bash
-npm run preview -- <name>                 # 540×960, fast
-npm run render -- <name>                  # 1080×1920, H.264, ready to upload
-npm run render -- <name> --frames=0-150   # just a part
-npm run frames -- <name> 0,120,300        # still pictures to out/frames/
-```
-
-One MP4 works for Instagram Reels, YouTube Shorts and TikTok. A 30-second reel takes a few minutes on a normal laptop; more CPU cores = faster.
-
-If Remotion cannot download its browser (some school or office networks block it), install Chrome or Chromium and set the environment variable `REMOTION_BROWSER_EXECUTABLE` to its path before rendering.
+Curious how it works inside, or want to run the commands yourself? See the [technical guide](docs/technical.md).
 
 ---
 
-## Using an AI assistant
+## License
 
-`AGENTS.md` explains the workflow to coding assistants such as Claude Code, Cursor or Copilot: how a reel is built, which files to touch, and when to stop and ask you. A good way to start:
-
-> Read AGENTS.md and STYLE.md. Help me write a script for a reel about why cats purr.
-
-[docs/writing-scripts.md](docs/writing-scripts.md) has tips for hooks and keeping people watching.
-
----
-
-## Project layout
-
-```
-src/
-  reels/<name>/       script.txt, Reel.tsx, timings.json   ← one folder per reel
-  reels/registry.ts   list of reels (npm run new updates it)
-  components/         reusable pieces
-  style/theme.ts      your style
-  lib/timings.ts      cue() and friends
-public/reels/<name>/  voice.m4a (and voice-raw.* if you recorded)
-scripts/              voice.py, render.mjs, frames.mjs, new-reel.mjs
-templates/reel/       what npm run new copies
-voice.config.json     voice settings
-STYLE.md              your style in words
-AGENTS.md             instructions for AI assistants
-```
-
----
-
-## Licenses
-
-- The code in this repo: MIT (see `LICENSE`).
-- **Remotion** has its own license: free for individuals and small teams, paid for larger companies. Read <https://www.remotion.dev/license>.
-- **Kokoro** model: Apache 2.0. You can use the voices it makes, including commercially.
-- Anything you add (music, images, fonts) has its own license. Check before you publish.
+The code is MIT (see `LICENSE`). It's built on [Remotion](https://www.remotion.dev), which is free for individuals and small teams; check [its license](https://www.remotion.dev/license) if a company uses it. The free voice is [Kokoro](https://github.com/hexgrad/kokoro) (Apache 2.0).

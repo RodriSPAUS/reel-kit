@@ -4,6 +4,7 @@ Make the voice of a reel and the timings that sync the animation to it.
 
     npm run voice -- <reel>                      # free local voice (Kokoro)
     npm run voice -- <reel> --engine recorded    # your own recording
+    npm run voice -- --samples "Hello there!"    # listen to a few voices before choosing
 
 Input:  src/reels/<reel>/script.txt   (scenes in [brackets], one sentence per line)
         public/reels/<reel>/voice-raw.(m4a|mp3|wav)   only for --engine recorded
@@ -70,7 +71,7 @@ def read_script(path: Path) -> list[tuple[str, str]]:
 
 def ffmpeg(*args: str) -> str:
     if not shutil.which("ffmpeg"):
-        die("ffmpeg is not installed. See the README, section 'Install'.")
+        die("ffmpeg is not installed. Run: npm run setup")
     r = subprocess.run(["ffmpeg", "-hide_banner", "-y", *args], capture_output=True, text=True)
     if r.returncode != 0:
         die("ffmpeg failed:\n" + r.stderr[-1500:])
@@ -101,19 +102,26 @@ def trim_silence(a: np.ndarray, db: float = -40) -> np.ndarray:
 
 # --------------------------------------------------------------- engines ----
 
-def kokoro_segments(lines, cfg, work: Path) -> list[np.ndarray]:
+def load_kokoro():
+    """Loads the Kokoro voice model, downloading it the first time (~120 MB)."""
     try:
         from kokoro_onnx import Kokoro
     except ImportError:
-        die("Kokoro is not installed. Run: pip install -r requirements.txt")
+        die("Kokoro is not installed. Run: npm run setup")
     models = ROOT / "models"
     models.mkdir(exist_ok=True)
     for name, url in KOKORO_URLS.items():
         dest = models / name
         if not dest.exists():
             print(f"  Downloading voice model {name} (only the first time)…")
-            urllib.request.urlretrieve(url, dest)
-    k = Kokoro(str(models / "kokoro-v1.0.int8.onnx"), str(models / "voices-v1.0.bin"))
+            tmp = dest.with_suffix(".part")
+            urllib.request.urlretrieve(url, tmp)
+            tmp.rename(dest)
+    return Kokoro(str(models / "kokoro-v1.0.int8.onnx"), str(models / "voices-v1.0.bin"))
+
+
+def kokoro_segments(lines, cfg, work: Path) -> list[np.ndarray]:
+    k = load_kokoro()
     kc = cfg["kokoro"]
     if kc["voice"] not in k.get_voices():
         die(f"Unknown Kokoro voice '{kc['voice']}'. Available: {', '.join(sorted(k.get_voices()))}")
@@ -241,13 +249,61 @@ def finish_audio(audio: np.ndarray, out: Path, work: Path, tempo: float, lufs: f
     ffmpeg("-i", str(tmp), "-af", ",".join(filters), "-ar", "48000", "-c:a", "aac", "-b:a", "192k", str(out))
 
 
+# Voices that sound good, by language code used in voice.config.json.
+SUGGESTED = {
+    "en-us": ["af_heart", "af_bella", "af_nicole", "am_michael", "am_fenrir", "am_puck"],
+    "en-gb": ["bf_emma", "bf_isabella", "bm_george", "bm_fable"],
+    "es": ["ef_dora", "em_alex", "em_santa"],
+    "fr-fr": ["ff_siwis"],
+    "it": ["if_sara", "im_nicola"],
+    "pt-br": ["pf_dora", "pm_alex"],
+    "ja": ["jf_alpha", "jm_kumo"],
+    "cmn": ["zf_xiaobei", "zm_yunjian"],
+    "hi": ["hf_alpha", "hm_omega"],
+}
+LANG_OF_PREFIX = {"a": "en-us", "b": "en-gb", "e": "es", "f": "fr-fr", "i": "it", "p": "pt-br", "j": "ja", "z": "cmn", "h": "hi"}
+
+
+def make_samples(text: str, voices: str) -> None:
+    """Writes one short clip per voice to videos/voice-samples/ so you can listen and pick."""
+    cfg = json.loads((ROOT / "voice.config.json").read_text(encoding="utf-8"))
+    k = load_kokoro()
+    names = [v.strip() for v in voices.split(",") if v.strip()] or SUGGESTED.get(cfg["kokoro"]["lang"], SUGGESTED["en-us"])
+    out = ROOT / "videos" / "voice-samples"
+    out.mkdir(parents=True, exist_ok=True)
+    for v in names:
+        if v not in k.get_voices():
+            print(f"  skip {v}: not a Kokoro voice")
+            continue
+        lang = LANG_OF_PREFIX.get(v[0], cfg["kokoro"]["lang"])
+        samples, sr = k.create(text, voice=v, speed=cfg["kokoro"]["speed"], lang=lang)
+        wav = out / f"{v}.wav"
+        sf.write(wav, samples, sr)
+        ffmpeg("-i", str(wav), "-af", "loudnorm=I=-14:TP=-1.5", "-c:a", "aac", "-b:a", "128k", str(out / f"{v}.m4a"))
+        wav.unlink()
+        print(f"✔ videos/voice-samples/{v}.m4a  (lang {lang})")
+
+
 # ------------------------------------------------------------------ main ----
 
 def main() -> None:
     ap = argparse.ArgumentParser(description="Make the voice and timings for a reel.")
-    ap.add_argument("reel", help="reel folder name, e.g. example")
+    ap.add_argument("reel", nargs="?", help="reel folder name, e.g. example")
     ap.add_argument("--engine", choices=["kokoro", "recorded"], help="overrides voice.config.json")
+    ap.add_argument("--download-only", action="store_true", help="just download the voice model")
+    ap.add_argument("--samples", metavar="TEXT", help="make short samples of several voices saying TEXT")
+    ap.add_argument("--voices", default="", help="comma-separated voices for --samples (default: a few for the configured language)")
     args = ap.parse_args()
+
+    if args.download_only:
+        k = load_kokoro()
+        print(f"✔ Voice model ready ({len(k.get_voices())} voices)")
+        return
+    if args.samples:
+        make_samples(args.samples, args.voices)
+        return
+    if not args.reel:
+        die("Say which reel, e.g.: npm run voice -- example")
 
     cfg = json.loads((ROOT / "voice.config.json").read_text(encoding="utf-8"))
     engine = args.engine or cfg["engine"]
